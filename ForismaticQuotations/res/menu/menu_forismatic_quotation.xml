@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/share"
+        android:title="@string/btn_share"/>
+    <item
+        android:id="@+id/settings"
+        android:title="@string/btn_settings"/>
+    <item
+        android:id="@+id/exit"
+        android:title="@string/btn_exit"/>
+</menu>

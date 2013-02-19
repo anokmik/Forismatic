@@ -1,0 +1,99 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	<TabHost 
+	    android:id="@android:id/tabhost"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+	    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical" >
+	        
+	        <TabWidget 
+	            android:id="@android:id/tabs"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content" />
+	        
+	        <FrameLayout 
+	            android:id="@android:id/tabcontent"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent" >
+	            
+	            <RelativeLayout 
+	                android:id="@+id/currentQuotation"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent" >
+	                
+	                <TextView 
+	                    android:id="@+id/quotationTextAndAuthor"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_centerInParent="true"
+	                    android:text="@string/hello_world" />
+	                
+	                <View 
+	                    android:id="@+id/separator"
+	                    android:layout_width="0dp"
+	                    android:layout_height="wrap_content"
+	                    android:layout_below="@id/quotationTextAndAuthor"
+	                    android:layout_centerHorizontal="true" />
+	                
+	                <Button 
+	                    android:id="@+id/shareBtn"
+	                    android:layout_width="@dimen/btn_width"
+	                    android:layout_height="@dimen/btn_height"
+	                    android:layout_below="@id/quotationTextAndAuthor"
+	                    android:layout_toLeftOf="@id/separator"
+	                    android:text="@string/btn_share"
+	                    android:onClick="shareBtnClick" />
+	                
+	                <Button 
+	                    android:id="@+id/settingsBtn"
+	                    android:layout_width="@dimen/btn_width"
+	                    android:layout_height="@dimen/btn_height"
+	                    android:layout_below="@id/quotationTextAndAuthor"
+	                    android:layout_toRightOf="@id/separator"
+	                    android:text="@string/btn_settings"
+	                    android:onClick="settingsBtnClick" />
+	                
+	            </RelativeLayout>
+	            
+	            <LinearLayout
+	                android:id="@+id/allQuotations"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:orientation="vertical" >
+	                
+	                <TextView 
+	                    android:id="@+id/testTextAll"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="Here will be listview with all saved quotations." />
+	                
+	            </LinearLayout>
+	            
+	            <LinearLayout
+	                android:id="@+id/favQuotations"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:orientation="vertical" >
+	                
+	                <TextView 
+	                    android:id="@+id/testTextFav"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="Here will be listview with favourite quotations." />
+	                
+	            </LinearLayout>
+	            
+	        </FrameLayout>
+	    </LinearLayout>
+	    
+	</TabHost>
+
+</LinearLayout>
