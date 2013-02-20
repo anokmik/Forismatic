@@ -144,6 +144,6 @@ public class ForismaticQuotation extends Activity {
 	private void openSettings() {
 		Intent settings = new Intent(this, ForismaticPreferences.class);
 		startActivity(settings);
-	} 
+	}
 	
 }

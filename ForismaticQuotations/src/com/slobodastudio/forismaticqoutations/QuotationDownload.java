@@ -16,7 +16,7 @@ public class QuotationDownload extends Service {
 	private final static String TAG = "Logs: ";																//for testing purposes
 	
 	SharedPreferences sharedPrefs;
-	NotificationManager notifManager;
+	NotificationManager notifMng;
 	String refreshTime;
 	Timer refreshTimer;
 	TimerTask downloadTimerTask;
@@ -29,7 +29,7 @@ public class QuotationDownload extends Service {
 		super.onCreate();
 		Log.d(TAG, "Quotation Download Created!");
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		notifManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		notifMng = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 	}
 	
 	@Override
@@ -80,7 +80,7 @@ public class QuotationDownload extends Service {
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 		notif.setLatestEventInfo(this, notifTitle, notifText, pendingIntent);
 		notif.flags |= Notification.FLAG_AUTO_CANCEL;
-		notifManager.notify(23, notif);
+		notifMng.notify(23, notif);
 	}
 
 }
