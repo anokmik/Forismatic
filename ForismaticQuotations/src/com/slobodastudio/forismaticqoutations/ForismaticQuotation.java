@@ -88,16 +88,21 @@ public class ForismaticQuotation extends Activity {
 	}
 	
 	private void checkAndShare(TextView textToCheck, TextView authorToCheck) {
-		if (textToCheck != null && !textToCheck.equals("")) {
-			String text = textToCheck.getText().toString();
-			if (authorToCheck != null && !authorToCheck.equals("")) {
-				text += " Author: " + authorToCheck.getText().toString();
-			}			
-			Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-			shareIntent.setType("text/plain");
-			shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, SHARE_SUBJECT);
-			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
-			startActivity(Intent.createChooser(shareIntent, SHARE_CHOOSER_TITLE));	
+		if (textToCheck != null && !textToCheck.getText().toString().equals("")) {
+			String shareText = textToCheck.getText().toString();
+			if (!shareText.equals("")) {
+				if (authorToCheck != null) {
+					String author = authorToCheck.getText().toString();
+					if (!author.equals("")) {
+						shareText += " Author: " + author;						
+					}
+				}			
+				Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+				shareIntent.setType("text/plain");
+				shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, SHARE_SUBJECT);
+				shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
+				startActivity(Intent.createChooser(shareIntent, SHARE_CHOOSER_TITLE));				
+			}
 		} else {
 			Toast.makeText(getBaseContext(), "No text found for sharing!", Toast.LENGTH_SHORT).show();
 		}
