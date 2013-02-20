@@ -28,18 +28,19 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int allQuotations=0x7f0a0005;
+        public static final int allQuotations=0x7f0a0006;
         public static final int currentQuotation=0x7f0a0000;
-        public static final int exit=0x7f0a000b;
-        public static final int favQuotations=0x7f0a0007;
-        public static final int quotationTextAndAuthor=0x7f0a0001;
-        public static final int separator=0x7f0a0002;
-        public static final int settings=0x7f0a000a;
-        public static final int settingsBtn=0x7f0a0004;
-        public static final int share=0x7f0a0009;
-        public static final int shareBtn=0x7f0a0003;
-        public static final int testTextAll=0x7f0a0006;
-        public static final int testTextFav=0x7f0a0008;
+        public static final int exit=0x7f0a000c;
+        public static final int favQuotations=0x7f0a0008;
+        public static final int quotationAuthor=0x7f0a0002;
+        public static final int quotationText=0x7f0a0001;
+        public static final int separator=0x7f0a0003;
+        public static final int settings=0x7f0a000b;
+        public static final int settingsBtn=0x7f0a0005;
+        public static final int share=0x7f0a000a;
+        public static final int shareBtn=0x7f0a0004;
+        public static final int testTextAll=0x7f0a0007;
+        public static final int testTextFav=0x7f0a0009;
     }
     public static final class layout {
         public static final int activity_forismatic_quotation=0x7f030000;
@@ -52,8 +53,9 @@ public final class R {
         public static final int btn_exit=0x7f060004;
         public static final int btn_settings=0x7f060003;
         public static final int btn_share=0x7f060002;
-        public static final int hello_world=0x7f060005;
         public static final int settings=0x7f060001;
+        public static final int test_hello_author=0x7f060006;
+        public static final int test_hello_world=0x7f060005;
     }
     public static final class style {
         /** 

@@ -4,8 +4,7 @@
     <string name="settings">Settings Setup</string>
     <string name="btn_share">Share</string>
     <string name="btn_settings">Settings</string>  
-    <string name="btn_exit">Exit</string> 
-    <string name="hello_world">Test: Hello world!</string>    
+    <string name="btn_exit">Exit</string>   
     <string-array name="refresh_time_text">
         <item>Thirty seconds</item>
         <item>One minute</item>
@@ -19,5 +18,8 @@
         <item>5</item>
         <item>15</item>
         <item>30</item>
-    </string-array>    
+    </string-array>
+    
+    <string name="test_hello_world">Test: Hello world!</string>  
+    <string name="test_hello_author">Test: Hello Author!</string>
 </resources>

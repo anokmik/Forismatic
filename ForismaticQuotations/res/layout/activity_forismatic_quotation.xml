@@ -30,24 +30,32 @@
 	                android:layout_height="match_parent" >
 	                
 	                <TextView 
-	                    android:id="@+id/quotationTextAndAuthor"
+	                    android:id="@+id/quotationText"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_centerInParent="true"
-	                    android:text="@string/hello_world" />
+	                    android:text="@string/test_hello_world" />
+	                
+	                <TextView 
+	                    android:id="@+id/quotationAuthor"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_below="@id/quotationText"
+	                    android:layout_centerHorizontal="true"
+	                    android:text="@string/test_hello_author" />
 	                
 	                <View 
 	                    android:id="@+id/separator"
 	                    android:layout_width="0dp"
 	                    android:layout_height="wrap_content"
-	                    android:layout_below="@id/quotationTextAndAuthor"
+	                    android:layout_below="@id/quotationAuthor"
 	                    android:layout_centerHorizontal="true" />
 	                
 	                <Button 
 	                    android:id="@+id/shareBtn"
 	                    android:layout_width="@dimen/btn_width"
 	                    android:layout_height="@dimen/btn_height"
-	                    android:layout_below="@id/quotationTextAndAuthor"
+	                    android:layout_below="@id/quotationAuthor"
 	                    android:layout_toLeftOf="@id/separator"
 	                    android:text="@string/btn_share"
 	                    android:onClick="shareBtnClick" />
@@ -56,7 +64,7 @@
 	                    android:id="@+id/settingsBtn"
 	                    android:layout_width="@dimen/btn_width"
 	                    android:layout_height="@dimen/btn_height"
-	                    android:layout_below="@id/quotationTextAndAuthor"
+	                    android:layout_below="@id/quotationAuthor"
 	                    android:layout_toRightOf="@id/separator"
 	                    android:text="@string/btn_settings"
 	                    android:onClick="settingsBtnClick" />

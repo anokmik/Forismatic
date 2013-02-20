@@ -18,13 +18,14 @@ public class ForismaticQuotation extends Activity {
 	private final static String SHARE_SUBJECT = "Forismatic quotation";
 	private final static String SHARE_CHOOSER_TITLE = "Choose place to share:";
 	
-	TextView quoteTextView;
+	TextView quotationText, quotationAuthor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_forismatic_quotation);
-		quoteTextView = (TextView) findViewById(R.id.quotationTextAndAuthor);
+		quotationText = (TextView) findViewById(R.id.quotationText);
+		quotationAuthor = (TextView) findViewById(R.id.quotationAuthor);
 		
 		TabHost forismaticTabs = (TabHost) findViewById(android.R.id.tabhost);
 		forismaticTabs.setup();	
@@ -64,7 +65,7 @@ public class ForismaticQuotation extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.share:
-			checkAndShare(quoteTextView);
+			checkAndShare(quotationText, quotationAuthor);
 			break;			
 		case R.id.settings:
 			openSettings();		
@@ -79,28 +80,31 @@ public class ForismaticQuotation extends Activity {
 	}
 	
 	public void shareBtnClick(View v) {
-		checkAndShare(quoteTextView);
+		checkAndShare(quotationText, quotationAuthor);
 	}
 	
 	public void settingsBtnClick(View v) {
 		openSettings();
 	}
 	
-	private void checkAndShare(TextView textViewToCheck) {
-		if (textViewToCheck != null) {
+	private void checkAndShare(TextView textToCheck, TextView authorToCheck) {
+		if (textToCheck != null && !textToCheck.equals("")) {
+			String text = textToCheck.getText().toString();
+			if (authorToCheck != null && !authorToCheck.equals("")) {
+				text += " Author: " + authorToCheck.getText().toString();
+			}			
 			Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
 			shareIntent.setType("text/plain");
 			shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, SHARE_SUBJECT);
-			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, textViewToCheck.getText().toString());
-			startActivity(Intent.createChooser(shareIntent, SHARE_CHOOSER_TITLE));
+			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+			startActivity(Intent.createChooser(shareIntent, SHARE_CHOOSER_TITLE));	
 		} else {
 			Toast.makeText(getBaseContext(), "No text found for sharing!", Toast.LENGTH_SHORT).show();
-		}		
+		}
 	}
 	
 	private void openSettings() {
-		Intent settings = new Intent(this, ForismaticPreferences.class);
-		startActivity(settings);
+		startActivity(new Intent(this, ForismaticPreferences.class));
 	} 
 	
 }
