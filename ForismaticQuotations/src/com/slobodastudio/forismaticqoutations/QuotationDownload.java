@@ -20,6 +20,7 @@ public class QuotationDownload extends Service {
 	String refreshTime;
 	Timer refreshTimer;
 	TimerTask downloadTimerTask;
+	boolean showNotifs;
 	
 	int i = 0;																								//For testing purposes
 	
@@ -40,7 +41,7 @@ public class QuotationDownload extends Service {
 	@Override
 	public void onStart(Intent intent, int startId) {
 		Log.d(TAG, "Quotation Download Started!");															//For testing purposes
-		refreshTime = sharedPrefs.getString("refreshTime", "30");	
+		refreshTime = sharedPrefs.getString("refreshTime", "30");
 		Log.d(TAG, "Quotation Download Refresh Time: " + refreshTime);										//For testing purposes
 		refreshTimer = new Timer();
 		downloadTimerTask = new TimerTask() {
@@ -48,7 +49,11 @@ public class QuotationDownload extends Service {
 			public void run() {
 				i++;																						//For testing purposes
 				Log.d(TAG, "Task scheduled " + i + ".");													//For testing purposes
-				downloadNotif("Download task completed", "Task scheduled " + i + ".");						//Change title and text
+				showNotifs = sharedPrefs.getBoolean("notifDisplay", Boolean.FALSE);
+				Log.d(TAG, "Quotation Download Show Notififcations: " + showNotifs);						//For testing purposes
+				if (showNotifs) {
+					downloadNotif("Download task completed", "Task scheduled " + i + ".");					//Change title and text
+				}
 			}
 		};
 		refreshTimer.scheduleAtFixedRate(downloadTimerTask, 0, Long.parseLong(refreshTime) * 1000);

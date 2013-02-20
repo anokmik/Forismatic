@@ -60,12 +60,6 @@ public class ForismaticQuotation extends Activity {
 	}
 	
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		stopService(new Intent(this, QuotationDownload.class));
-	}
-	
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_forismatic_quotation, menu);
 		return true;
