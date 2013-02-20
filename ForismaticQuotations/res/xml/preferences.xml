@@ -4,7 +4,7 @@
     <ListPreference
         android:title="Refresh time"
         android:summary="Quotation refresh time"
-        android:key="refTimeList"
+        android:key="refreshTime"
         android:entries="@array/refresh_time_text"
         android:entryValues="@array/refresh_time_values"
         android:defaultValue="0.5" />
