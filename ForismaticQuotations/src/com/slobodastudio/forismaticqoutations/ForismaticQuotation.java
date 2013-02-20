@@ -1,8 +1,10 @@
 package com.slobodastudio.forismaticqoutations;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ public class ForismaticQuotation extends Activity {
 	private final static String TAG = "Logs: ";
 	
 	TextView quotationText, quotationAuthor;
+	SharedPreferences sharedPrefernces;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class ForismaticQuotation extends Activity {
 		setContentView(R.layout.activity_forismatic_quotation);
 		quotationText = (TextView) findViewById(R.id.quotationText);
 		quotationAuthor = (TextView) findViewById(R.id.quotationAuthor);
+		sharedPrefernces = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		TabHost forismaticTabs = (TabHost) findViewById(android.R.id.tabhost);
 		forismaticTabs.setup();	
@@ -59,6 +63,31 @@ public class ForismaticQuotation extends Activity {
 		startService(new Intent(this, QuotationDownload.class));
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		isShown(true);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		isShown(false);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		stopService(new Intent(this, QuotationDownload.class));
+	}
+	
+	private void isShown(boolean state) {
+		SharedPreferences.Editor editor = sharedPrefernces.edit();
+		editor.putBoolean("isShown", state);
+		Log.d(TAG, "Quotation Activity State " + state);														//For testing purposes
+		editor.commit();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_forismatic_quotation, menu);

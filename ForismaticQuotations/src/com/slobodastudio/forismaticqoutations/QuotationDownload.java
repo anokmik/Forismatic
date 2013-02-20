@@ -20,7 +20,7 @@ public class QuotationDownload extends Service {
 	String refreshTime;
 	Timer refreshTimer;
 	TimerTask downloadTimerTask;
-	boolean showNotifs;
+	boolean showNotifs, activityIsShown;
 	
 	int i = 0;																								//For testing purposes
 	
@@ -49,9 +49,10 @@ public class QuotationDownload extends Service {
 			public void run() {
 				i++;																						//For testing purposes
 				Log.d(TAG, "Task scheduled " + i + ".");													//For testing purposes
-				showNotifs = sharedPrefs.getBoolean("notifDisplay", Boolean.FALSE);
+				showNotifs = sharedPrefs.getBoolean("notifDisplay", false);
+				activityIsShown = sharedPrefs.getBoolean("isShown", true);
 				Log.d(TAG, "Quotation Download Show Notififcations: " + showNotifs);						//For testing purposes
-				if (showNotifs) {
+				if (!activityIsShown && showNotifs) {
 					downloadNotif("Download task completed", "Task scheduled " + i + ".");					//Change title and text
 				}
 			}
