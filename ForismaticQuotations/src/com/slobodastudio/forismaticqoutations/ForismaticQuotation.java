@@ -1,6 +1,9 @@
 package com.slobodastudio.forismaticqoutations;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +26,7 @@ public class ForismaticQuotation extends Activity {
 	private final static String TAG = "Logs: ";
 	
 	TextView quotationText, quotationAuthor;
-	SharedPreferences sharedPrefernces;
+	SharedPreferences sharedPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +34,10 @@ public class ForismaticQuotation extends Activity {
 		setContentView(R.layout.activity_forismatic_quotation);
 		quotationText = (TextView) findViewById(R.id.quotationText);
 		quotationAuthor = (TextView) findViewById(R.id.quotationAuthor);
-		sharedPrefernces = PreferenceManager.getDefaultSharedPreferences(this);
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		TabHost forismaticTabs = (TabHost) findViewById(android.R.id.tabhost);
-		forismaticTabs.setup();	
+		forismaticTabs.setup();
 		TabHost.TabSpec forismaticTabSpec;
 		
 		forismaticTabSpec = forismaticTabs.newTabSpec(CURRENT);
@@ -56,23 +59,49 @@ public class ForismaticQuotation extends Activity {
 		forismaticTabs.setOnTabChangedListener(new OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
-				Log.d(TAG, "Quotation Tab Clicked: " + tabId);												//For testing purposes
+				Log.d(TAG, "QuotationLog Tab Clicked: " + tabId);												//For testing purposes
 			}
 		});
+
+		//For testing purposes
 		
-		startService(new Intent(this, QuotationDownload.class));
+		class ServiceHandler extends Handler {
+			@Override
+			public void handleMessage(Message message) {
+//				super.handleMessage(message);
+				String[] data = (String[]) message.obj;
+				if (message.arg1 == 0 && data != null) {
+					quotationText.setText("Message Sent Success: " + data[0]);
+					if (!data[1].isEmpty()) {
+						quotationAuthor.setVisibility(View.VISIBLE);
+						quotationAuthor.setText("Message Sent Success: " + data[1]);
+					} else {
+						quotationAuthor.setVisibility(View.GONE);
+					}
+					Log.d(TAG, "QuotationLog Message Sent Success: " + data.toString());						//For testing purposes
+				} else {
+					Log.d(TAG, "QuotationLog Message Sent Failed!");											//For testing purposes
+				}
+			}
+		}
+		
+		final Messenger messenger = new Messenger(new ServiceHandler());
+		Intent intent = new Intent(this, QuotationDownload.class);
+		intent.putExtra("MESSENGER", messenger);
+		//For testing purposes		
+		startService(intent);
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		isShown(true);
+		activityIsShown(true);
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
-		isShown(false);
+		activityIsShown(false);
 	}
 	
 	@Override
@@ -81,10 +110,10 @@ public class ForismaticQuotation extends Activity {
 		stopService(new Intent(this, QuotationDownload.class));
 	}
 	
-	private void isShown(boolean state) {
-		SharedPreferences.Editor editor = sharedPrefernces.edit();
+	private void activityIsShown(boolean state) {
+		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean("isShown", state);
-		Log.d(TAG, "Quotation Activity State " + state);														//For testing purposes
+		Log.d(TAG, "QuotationLog Application Is Shown State " + state);														//For testing purposes
 		editor.commit();
 	}
 
@@ -129,7 +158,7 @@ public class ForismaticQuotation extends Activity {
 					if (!author.equals("")) {
 						shareText += " Author: " + author;
 					}
-				}			
+				}
 				Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
 				shareIntent.setType("text/plain");
 				shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, SHARE_SUBJECT);

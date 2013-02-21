@@ -5,7 +5,7 @@
     android:versionName="1.05" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="17" />
 
     <application
@@ -16,7 +16,8 @@
         
         <activity
             android:name=".ForismaticQuotation"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
