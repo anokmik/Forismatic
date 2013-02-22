@@ -1,8 +1,6 @@
 package com.slobodastudio.forismaticqoutations;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Messenger;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -18,16 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ForismaticQuotation extends Activity {
+	private final static String TAG = "Logs: ";
 	private final static String CURRENT = "CURRENT QUOTATION";
 	private final static String ALL = "ALL QUOTATIONS";
 	private final static String FAVOURITE = "FAVOURITE QUOTATIONS";
-	private final static String SHARE_SUBJECT = "Forismatic quotation";
+	private final static String SHARE_SUBJECT = "Forismatic Quotation";
 	private final static String SHARE_CHOOSER_TITLE = "Choose place to share:";
-	private final static String TAG = "Logs: ";
 	
-	TextView quotationText, quotationAuthor;
-	SharedPreferences sharedPreferences;
-
+	private static TextView quotationText, quotationAuthor;
+	private SharedPreferences sharedPreferences;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,36 +57,13 @@ public class ForismaticQuotation extends Activity {
 		forismaticTabs.setOnTabChangedListener(new OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
-				Log.d(TAG, "QuotationLog Tab Clicked: " + tabId);												//For testing purposes
+				Log.d(TAG, "QuotationLog Tab Clicked: " + tabId);											//For testing purposes
 			}
 		});
-
-		//For testing purposes
 		
-		class ServiceHandler extends Handler {
-			@Override
-			public void handleMessage(Message message) {
-//				super.handleMessage(message);
-				String[] data = (String[]) message.obj;
-				if (message.arg1 == 0 && data != null) {
-					quotationText.setText("Message Sent Success: " + data[0]);
-					if (!data[1].isEmpty()) {
-						quotationAuthor.setVisibility(View.VISIBLE);
-						quotationAuthor.setText("Message Sent Success: " + data[1]);
-					} else {
-						quotationAuthor.setVisibility(View.GONE);
-					}
-					Log.d(TAG, "QuotationLog Message Sent Success: " + data.toString());						//For testing purposes
-				} else {
-					Log.d(TAG, "QuotationLog Message Sent Failed!");											//For testing purposes
-				}
-			}
-		}
-		
-		final Messenger messenger = new Messenger(new ServiceHandler());
+		final Messenger messenger = new Messenger(new ServiceHandler(quotationText, quotationAuthor));
 		Intent intent = new Intent(this, QuotationDownload.class);
 		intent.putExtra("MESSENGER", messenger);
-		//For testing purposes		
 		startService(intent);
 	}
 	
@@ -108,12 +83,13 @@ public class ForismaticQuotation extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		stopService(new Intent(this, QuotationDownload.class));
+		Log.d(TAG, getLocalClassName() + " Service stopped!");
 	}
 	
 	private void activityIsShown(boolean state) {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putBoolean("isShown", state);
-		Log.d(TAG, "QuotationLog Application Is Shown State " + state);														//For testing purposes
+		Log.d(TAG, getLocalClassName() + " " + state);
 		editor.commit();
 	}
 
@@ -150,29 +126,30 @@ public class ForismaticQuotation extends Activity {
 	}
 	
 	private void checkAndShare(TextView textToCheck, TextView authorToCheck) {
-		if (textToCheck != null && !textToCheck.getText().toString().equals("")) {
+		if (textToCheck != null && !textToCheck.getText().toString().isEmpty()) {
 			String shareText = textToCheck.getText().toString();
-			if (!shareText.equals("")) {
-				if (authorToCheck != null) {
-					String author = authorToCheck.getText().toString();
-					if (!author.equals("")) {
-						shareText += " Author: " + author;
-					}
+			if (authorToCheck != null) {
+				String author = authorToCheck.getText().toString();
+				if (!author.isEmpty()) {
+					shareText += " " + author + ".";
 				}
-				Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-				shareIntent.setType("text/plain");
-				shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, SHARE_SUBJECT);
-				shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
-				startActivity(Intent.createChooser(shareIntent, SHARE_CHOOSER_TITLE));
 			}
+			Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+			shareIntent.setType("text/plain");
+			shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, SHARE_SUBJECT);
+			shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
+			startActivity(Intent.createChooser(shareIntent, SHARE_CHOOSER_TITLE));
 		} else {
 			Toast.makeText(getBaseContext(), "No text found for sharing!", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
 	private void openSettings() {
-		Intent settings = new Intent(this, ForismaticPreferences.class);
-		startActivity(settings);
+//		final Messenger messenger = new Messenger(new PreferencesHandler(QuotationDownload.refreshTimer, QuotationDownload.downloadTimerTask));
+//		Intent intent = new Intent(this, ForismaticPreferences.class);
+//		intent.putExtra("MESSENGER", messenger);
+//		startActivity(intent);
+		startActivity(new Intent(this, ForismaticPreferences.class));
 	}
 	
 }

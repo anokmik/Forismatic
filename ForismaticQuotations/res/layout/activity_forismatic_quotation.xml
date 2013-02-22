@@ -34,7 +34,8 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_centerInParent="true"
-	                    android:text="@string/test_hello_world" />
+	                    android:gravity="center"
+	                    android:text="@string/quotation_text" />
 	                
 	                <TextView 
 	                    android:id="@+id/quotationAuthor"
@@ -42,7 +43,8 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_below="@id/quotationText"
 	                    android:layout_centerHorizontal="true"
-	                    android:text="@string/test_hello_author" />
+	                    android:visibility="gone"
+	                    android:gravity="center" />
 	                
 	                <View 
 	                    android:id="@+id/separator"
