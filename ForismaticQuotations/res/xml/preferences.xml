@@ -2,16 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
        
     <ListPreference
-        android:title="Refresh time"
-        android:summary="Quotation refresh time"
-        android:key="refreshTime"
-        android:entries="@array/refresh_time_text"
-        android:entryValues="@array/refresh_time_values"
-        android:defaultValue="0.5" />
+        android:title="@string/pref_refresh_time_title"
+        android:summary="@string/pref_refresh_time_summary"
+        android:key="@string/pref_refresh_time_key"
+        android:entries="@array/pref_refresh_time_text"
+        android:entryValues="@array/pref_refresh_time_values"
+        android:defaultValue="30" />
     
     <CheckBoxPreference
-        android:title="Notifications"
-        android:summary="Display notification when quotation is updated"
-        android:key="notifDisplay" />
+        android:title="@string/pref_notif_title"
+        android:summary="@string/pref_notif_summary"
+        android:key="@string/pref_notif_key"
+        android:defaultValue="true" />
 
 </PreferenceScreen>

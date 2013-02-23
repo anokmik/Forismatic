@@ -35,7 +35,7 @@
 	                    android:layout_height="wrap_content"
 	                    android:layout_centerInParent="true"
 	                    android:gravity="center"
-	                    android:text="@string/quotation_text" />
+	                    android:text="@string/quotation_text_default" />
 	                
 	                <TextView 
 	                    android:id="@+id/quotationAuthor"

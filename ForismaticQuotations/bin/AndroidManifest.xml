@@ -29,11 +29,11 @@
         
         <activity
             android:name=".ForismaticPreferences"
-            android:label="@string/settings" >
+            android:label="@string/pref_title" >
         </activity>
         
         <service
-            android:name=".QuotationDownload" >
+            android:name=".QuotationDownloadService" >
         </service>
         
     </application>

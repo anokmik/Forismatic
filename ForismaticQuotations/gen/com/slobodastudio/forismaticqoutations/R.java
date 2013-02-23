@@ -9,8 +9,8 @@ package com.slobodastudio.forismaticqoutations;
 
 public final class R {
     public static final class array {
-        public static final int refresh_time_text=0x7f070000;
-        public static final int refresh_time_values=0x7f070001;
+        public static final int pref_refresh_time_text=0x7f070000;
+        public static final int pref_refresh_time_values=0x7f070001;
     }
     public static final class attr {
     }
@@ -50,11 +50,37 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f060000;
-        public static final int btn_exit=0x7f060005;
-        public static final int btn_settings=0x7f060004;
-        public static final int btn_share=0x7f060003;
-        public static final int quotation_text=0x7f060002;
-        public static final int settings=0x7f060001;
+        public static final int btn_exit=0x7f060008;
+        public static final int btn_settings=0x7f060007;
+        /**  Button 
+         */
+        public static final int btn_share=0x7f060006;
+        public static final int is_shown=0x7f060013;
+        /**  Service 
+         */
+        public static final int messenger=0x7f06000b;
+        public static final int pref_notif_key=0x7f060012;
+        public static final int pref_notif_summary=0x7f060011;
+        public static final int pref_notif_title=0x7f060010;
+        public static final int pref_refresh_time_key=0x7f06000f;
+        public static final int pref_refresh_time_summary=0x7f06000e;
+        public static final int pref_refresh_time_title=0x7f06000d;
+        /**  Preferences 
+         */
+        public static final int pref_title=0x7f06000c;
+        /**  Activivty 
+         */
+        public static final int quotation_text_default=0x7f060001;
+        public static final int quotation_text_not_found=0x7f060002;
+        public static final int share_chooser_title=0x7f06000a;
+        /**  Share 
+         */
+        public static final int share_subject=0x7f060009;
+        public static final int tab_all=0x7f060004;
+        /**  Tab 
+         */
+        public static final int tab_current=0x7f060003;
+        public static final int tab_favourite=0x7f060005;
     }
     public static final class style {
         /** 
