@@ -23,13 +23,13 @@ public class PreferenceChangeReceiver extends BroadcastReceiver {
 	}
 	
 	@Override
-	public void onReceive(Context context, Intent intent) {	
+	public void onReceive(Context context, Intent intent) {
+		SharedPreferences receiverSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		long receiverRefreshTime = Long.parseLong(receiverSharedPrefs.getString(context.getString(R.string.pref_refresh_time_key), "30")) * 1000;
 		if (receiverTimer != null) {
 			receiverTimer.cancel();
 			receiverTimerTask.cancel();
 			receiverTimer = new Timer();
-			SharedPreferences receiverSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-			long receiverRefreshTime = Long.parseLong(receiverSharedPrefs.getString(context.getString(R.string.pref_refresh_time_key), "30")) * 1000;
 			receiverTimerTask = new DownloadTimerTask(context, receiverMessenger);
 			receiverTimer.scheduleAtFixedRate(receiverTimerTask, 0,receiverRefreshTime);
 			Log.d(TAG, "Quotation download refresh time " + receiverRefreshTime);										//For testing purposes

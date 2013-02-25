@@ -37,8 +37,7 @@ public class QuotationDownloadService extends Service {
 		IntentFilter filter = new IntentFilter(PreferenceChangeReceiver.ACTION_PREFERENCE_CHANGE);
 		filter.addCategory(Intent.CATEGORY_DEFAULT);
 		receiver = new PreferenceChangeReceiver(serviceMessenger, downloadTimerTask, refreshTimer);
-		registerReceiver(receiver, filter);
-		
+		registerReceiver(receiver, filter);		
 		return super.onStartCommand(intent, flags, startId);
 	}
 

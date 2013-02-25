@@ -48,7 +48,7 @@ public class ForismaticQuotation extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		stopService(service);
-		Log.d(TAG, getLocalClassName() + " Service stopped!");											//For testing purposes
+		Log.d(TAG, getLocalClassName() + " Service stopped!");												//For testing purposes
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class ForismaticQuotation extends Activity {
 	}
 	
 	private void addTab(TabHost host, String text, int view) {
-		TabHost.TabSpec spec = host.newTabSpec(getString(R.string.tab_current));
+		TabHost.TabSpec spec = host.newTabSpec(text);
 		spec.setIndicator(text);
 		spec.setContent(view);
 		host.addTab(spec);

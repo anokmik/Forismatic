@@ -44,7 +44,7 @@ public class ForismaticPreferences extends PreferenceActivity {
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 			Log.d(TAG, getLocalClassName() + " " + key);																					//For testing purposes
-			if (key.equals(getString(R.string.pref_refresh_time_key)) || key.equals(getString(R.string.pref_notif_key))) {
+			if (key.equals(getString(R.string.pref_refresh_time_key))) {
 				int refreshTimeValue = Integer.parseInt(preferences.getString(getString(R.string.pref_refresh_time_key), "30")) *1000;
 				Intent broadcastIntent = new Intent();
 				broadcastIntent.setAction(PreferenceChangeReceiver.ACTION_PREFERENCE_CHANGE);

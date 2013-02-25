@@ -39,7 +39,7 @@ public class DownloadTimerTask extends TimerTask {
 	public void run() {
 		boolean showNotifs = sharedPrefs.getBoolean(downloadContext.getString(R.string.pref_notif_key), true);
 		boolean appInFront = sharedPrefs.getBoolean(downloadContext.getString(R.string.is_shown), true);
-		Bundle serviceData = requestQuotation(downloadContext);
+		Bundle serviceData = requestQuotation(downloadContext.getString(R.string.quotation_text_default));
 		Message servMsg = Message.obtain(null, 0, serviceData);
 		try {
 			downloadMessenger.send(servMsg);
@@ -51,7 +51,7 @@ public class DownloadTimerTask extends TimerTask {
 		}
 	}
 	
-	private Bundle requestQuotation(Context ctxt) {
+	private Bundle requestQuotation(String checkInternetConn) {
 		Bundle quotationData = new Bundle();
 		DefaultHttpClient quotationHttpClient = new DefaultHttpClient();
 		HttpResponse quotationResponse;
@@ -64,7 +64,8 @@ public class DownloadTimerTask extends TimerTask {
 			}
 		} catch (Exception e) {
 			Log.d(TAG, "Quotation Download Failed!" + e.toString());														//For testing purposes
-			quotationData.putString(TEXT, ctxt.getString(R.string.quotation_text_not_found));					//Change to string from activity
+			quotationData.putString(TEXT, checkInternetConn);																//Change to string from activity
+			quotationData.putString(AUTHOR, "");																			//Change to string from activity
 		}
 		return quotationData;	
 	}
@@ -73,7 +74,7 @@ public class DownloadTimerTask extends TimerTask {
 		NotificationManager notifMng = (NotificationManager) ctxt.getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification notif = new Notification(R.drawable.ic_launcher, notifTitle, 0);
 		Intent intent = new Intent(ctxt, ForismaticQuotation.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(downloadContext, 0, intent, 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(ctxt, 0, intent, 0);
 		notif.setLatestEventInfo(ctxt, notifTitle, notifText, pendingIntent);
 		notif.flags |= Notification.FLAG_AUTO_CANCEL;
 		notifMng.notify(23, notif);
