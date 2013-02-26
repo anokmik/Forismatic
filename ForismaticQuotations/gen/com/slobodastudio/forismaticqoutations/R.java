@@ -29,21 +29,28 @@ public final class R {
     }
     public static final class id {
         public static final int allQuotations=0x7f0a0006;
+        public static final int allQuotationsList=0x7f0a0007;
         public static final int currentQuotation=0x7f0a0000;
-        public static final int exit=0x7f0a000c;
+        public static final int exit=0x7f0a0011;
         public static final int favQuotations=0x7f0a0008;
+        public static final int favQuotationsList=0x7f0a0009;
         public static final int quotationAuthor=0x7f0a0002;
+        public static final int quotationAuthorAtList=0x7f0a000b;
+        public static final int quotationAuthorAtListFav=0x7f0a000e;
+        public static final int quotationFavouriteAtList=0x7f0a000c;
         public static final int quotationText=0x7f0a0001;
+        public static final int quotationTextAtList=0x7f0a000a;
+        public static final int quotationTextAtListFav=0x7f0a000d;
         public static final int separator=0x7f0a0003;
-        public static final int settings=0x7f0a000b;
+        public static final int settings=0x7f0a0010;
         public static final int settingsBtn=0x7f0a0005;
-        public static final int share=0x7f0a000a;
+        public static final int share=0x7f0a000f;
         public static final int shareBtn=0x7f0a0004;
-        public static final int testTextAll=0x7f0a0007;
-        public static final int testTextFav=0x7f0a0009;
     }
     public static final class layout {
         public static final int activity_forismatic_quotation=0x7f030000;
+        public static final int listview_row=0x7f030001;
+        public static final int listview_row_fav=0x7f030002;
     }
     public static final class menu {
         public static final int menu_forismatic_quotation=0x7f090000;

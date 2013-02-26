@@ -79,11 +79,18 @@
 	                android:layout_height="match_parent"
 	                android:orientation="vertical" >
 	                
+	                <ListView 
+	                    android:id="@+id/allQuotationsList"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content" />
+	                
+	                <!--  
 	                <TextView 
 	                    android:id="@+id/testTextAll"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:text="Here will be listview with all saved quotations." />
+	                -->
 	                
 	            </LinearLayout>
 	            
@@ -93,12 +100,18 @@
 	                android:layout_height="match_parent"
 	                android:orientation="vertical" >
 	                
+	                <ListView 
+	                    android:id="@+id/favQuotationsList"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content" />
+	                
+	                <!--
 	                <TextView 
 	                    android:id="@+id/testTextFav"
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:text="Here will be listview with favourite quotations." />
-	                
+	                -->
 	            </LinearLayout>
 	            
 	        </FrameLayout>

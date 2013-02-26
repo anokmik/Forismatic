@@ -11,10 +11,9 @@ import android.util.Log;
 import java.util.Timer;
 
 public class QuotationDownloadService extends Service {
-	private final static String TAG = "Logs: ";
+	private final static String TAG = QuotationDownloadService.class.getSimpleName();
 	private static Timer refreshTimer;
 	private static DownloadTimerTask downloadTimerTask;
-	private static Messenger serviceMessenger;
 	private PreferenceChangeReceiver receiver;
 	
 	@Override
@@ -26,18 +25,20 @@ public class QuotationDownloadService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent.getExtras() != null) {
-			serviceMessenger = (Messenger) intent.getExtras().get(getString(R.string.messenger));
+			Messenger serviceMessenger = (Messenger) intent.getExtras().get(getString(R.string.messenger));
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			long refreshTime = Long.parseLong(sharedPrefs.getString(getString(R.string.pref_refresh_time_key), "30")) * 1000;
+			downloadTimerTask = new DownloadTimerTask(this, serviceMessenger);
+			refreshTimer.scheduleAtFixedRate(downloadTimerTask, 0, refreshTime);
+			Log.d(TAG, " Quotation download refresh time " + refreshTime);														//For testing purposes
+			
+			IntentFilter filter = new IntentFilter(PreferenceChangeReceiver.ACTION_PREFERENCE_CHANGE);
+			filter.addCategory(Intent.CATEGORY_DEFAULT);
+			receiver = new PreferenceChangeReceiver(serviceMessenger, downloadTimerTask, refreshTimer);
+			registerReceiver(receiver, filter);
+		} else {
+			Log.d(TAG, " Can't receive messnger from activity!");																	//For testing purposes
 		}
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		long refreshTime = Long.parseLong(sharedPrefs.getString(getString(R.string.pref_refresh_time_key), "30")) * 1000;
-		downloadTimerTask = new DownloadTimerTask(this, serviceMessenger);
-		refreshTimer.scheduleAtFixedRate(downloadTimerTask, 0, refreshTime);
-		Log.d(TAG, "Quotation download refresh time " + refreshTime);														//For testing purposes
-		
-		IntentFilter filter = new IntentFilter(PreferenceChangeReceiver.ACTION_PREFERENCE_CHANGE);
-		filter.addCategory(Intent.CATEGORY_DEFAULT);
-		receiver = new PreferenceChangeReceiver(serviceMessenger, downloadTimerTask, refreshTimer);
-		registerReceiver(receiver, filter);		
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -50,8 +51,12 @@ public class QuotationDownloadService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		refreshTimer.cancel();
-		downloadTimerTask.cancel();
-		unregisterReceiver(receiver);
+		if (downloadTimerTask != null) {
+			downloadTimerTask.cancel();
+		}
+		if (receiver != null) {
+			unregisterReceiver(receiver);
+		}
 	}
 
 }

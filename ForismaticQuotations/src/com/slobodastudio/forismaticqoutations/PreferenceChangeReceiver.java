@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.Timer;
 
 public class PreferenceChangeReceiver extends BroadcastReceiver {
-	private final static String TAG = "Logs: ";	
+	private final static String TAG = PreferenceChangeReceiver.class.getSimpleName();	
 	public final static String ACTION_PREFERENCE_CHANGE = "PREFERENCE CHANGE";
 	private Timer receiverTimer;
 	private DownloadTimerTask receiverTimerTask;

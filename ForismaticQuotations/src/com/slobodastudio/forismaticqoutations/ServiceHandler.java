@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ServiceHandler extends Handler {
-	private final static String TAG = "Logs: ";	
+	private final static String TAG = ServiceHandler.class.getSimpleName();	
 	private final static String TEXT = "text";
 	private final static String AUTHOR = "author";
 	private TextView handlerTextHolder, handlerAthorHolder;
@@ -30,9 +30,9 @@ public class ServiceHandler extends Handler {
 			} else {
 				handlerAthorHolder.setVisibility(View.GONE);
 			}
-			Log.d(TAG, "QuotationLog Message Sent Success!");					//For testing purposes
+			Log.d(TAG, " Message Sent Success!");								//For testing purposes
 		} else {
-			Log.d(TAG, "QuotationLog Message Sent Failed!");					//For testing purposes
+			Log.d(TAG, " Message Sent Failed!");								//For testing purposes
 		}
 	}
 

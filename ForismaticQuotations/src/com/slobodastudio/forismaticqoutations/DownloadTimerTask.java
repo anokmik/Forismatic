@@ -19,7 +19,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 public class DownloadTimerTask extends TimerTask {
-	private final static String TAG = "Logs: ";
+	private final static String TAG = DownloadTimerTask.class.getSimpleName();
 	private final static String URL = "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=ru";
 	private final static String TEXT = "text";
 	private final static String AUTHOR = "author";
