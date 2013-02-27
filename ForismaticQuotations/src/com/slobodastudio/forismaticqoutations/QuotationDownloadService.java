@@ -58,5 +58,4 @@ public class QuotationDownloadService extends Service {
 			unregisterReceiver(receiver);
 		}
 	}
-
 }

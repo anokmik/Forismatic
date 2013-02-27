@@ -25,6 +25,7 @@ public class DownloadTimerTask extends TimerTask {
 	private final static String AUTHOR = "author";
 	private final static String QUOTE_TEXT = "quoteText";
 	private final static String QUOTE_AUTHOR = "quoteAuthor";
+	private static String prefNotifKey, appIsShown, tabIsShown, tabAll, defQuotationText;
 	private static SharedPreferences sharedPrefs;
 	private static Messenger downloadMessenger;
 	private Context downloadContext;
@@ -33,21 +34,27 @@ public class DownloadTimerTask extends TimerTask {
 		downloadContext = context;
 		downloadMessenger = messenger;
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		prefNotifKey = context.getString(R.string.pref_notif_key);
+		appIsShown = context.getString(R.string.app_is_shown);
+		tabIsShown = context.getString(R.string.tab_is_shown);
+		tabAll = context.getString(R.string.tab_all);
+		defQuotationText = context.getString(R.string.quotation_text_default);
 	}
 	
 	@Override
 	public void run() {
-		boolean showNotifs = sharedPrefs.getBoolean(downloadContext.getString(R.string.pref_notif_key), true);
-		boolean appInFront = sharedPrefs.getBoolean(downloadContext.getString(R.string.is_shown), true);
-		Bundle serviceData = requestQuotation(downloadContext.getString(R.string.quotation_text_default));
-		Message servMsg = Message.obtain(null, 0, serviceData);
+		boolean showNotifs = sharedPrefs.getBoolean(prefNotifKey, true);
+		boolean appInFront = sharedPrefs.getBoolean(appIsShown, true);
+		int allTabIsShown = sharedPrefs.getString(tabIsShown, null).equals(tabAll) ? 1 : 0;
+		Bundle serviceData = requestQuotation(defQuotationText);
+		Message servMsg = Message.obtain(null, allTabIsShown, serviceData);
 		try {
 			downloadMessenger.send(servMsg);
 			if (!appInFront && showNotifs) {
 				downloadNotif(downloadContext, serviceData.getString(TEXT), serviceData.getString(AUTHOR));
 			}
 		} catch (Exception e) {
-			Log.d(TAG, "Schedule download exception " + e.toString());														//For testing purposes
+			Log.d(TAG, "Schedule download exception " + e);														//For testing purposes
 		}
 	}
 	
@@ -64,8 +71,8 @@ public class DownloadTimerTask extends TimerTask {
 			}
 		} catch (Exception e) {
 			Log.d(TAG, "Quotation Download Failed!" + e.toString());														//For testing purposes
-			quotationData.putString(TEXT, checkInternetConn);																//Change to string from activity
-			quotationData.putString(AUTHOR, "");																			//Change to string from activity
+			quotationData.putString(TEXT, checkInternetConn);
+			quotationData.putString(AUTHOR, "");
 		}
 		return quotationData;	
 	}
@@ -79,5 +86,4 @@ public class DownloadTimerTask extends TimerTask {
 		notif.flags |= Notification.FLAG_AUTO_CANCEL;
 		notifMng.notify(23, notif);
 	}
-
 }

@@ -46,7 +46,7 @@ public class ForismaticPreferences extends PreferenceActivity {
 	
 	private void preferencesIsShown(boolean state) {
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putBoolean(getString(R.string.is_shown), state);
+		editor.putBoolean(getString(R.string.app_is_shown), state);
 		Log.d(TAG, getLocalClassName() + " " + state);																						//For testing purposes
 		editor.commit();
 	}

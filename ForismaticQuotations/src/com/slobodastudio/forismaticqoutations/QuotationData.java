@@ -61,5 +61,4 @@ public class QuotationData {
 		sb.append(", ").append("favourite=").append(favourite);
 		return sb.toString();
 	}
-
 }

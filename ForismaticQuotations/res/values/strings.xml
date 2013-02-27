@@ -45,5 +45,6 @@
     <string name="pref_notif_title">Notifications</string>
     <string name="pref_notif_summary">Display notification when quotation is updated</string>
     <string name="pref_notif_key">notifDisplay</string>
-    <string name="is_shown">isShown</string>
+    <string name="app_is_shown">appIsShown</string>
+    <string name="tab_is_shown">tabIsShown</string>
 </resources>

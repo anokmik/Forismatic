@@ -30,12 +30,13 @@ public class ForismaticDatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, QuotationData.class);
 			Log.d(TAG, " Databases created successfully");																		//For testing purposes
 			//Database test entries
+			/*
 			Dao<QuotationData, Integer> dao = getQuotationDataDao();
 			QuotationData qData = new QuotationData();
 			
 			qData.setQuotation("Истинный учёный - это мечтатель");
 			qData.setAuthor("О. фон Бисмарк");
-			qData.setFavourite(false);
+			qData.setFavourite(true);
 			dao.create(qData);
 			
 			qData.setQuotation("Всё настоящее - мгновение вечности");
@@ -45,8 +46,19 @@ public class ForismaticDatabaseHelper extends OrmLiteSqliteOpenHelper {
 			
 			qData.setQuotation("Нет ни одной превосходной души без примеси сумасшествия");
 			qData.setAuthor("");
-			qData.setFavourite(true);
-			dao.create(qData);			
+			qData.setFavourite(false);
+			dao.create(qData);
+			
+			qData.setQuotation("Мой жизненный опыт убедил меня, что люди, не имеющие недостатков, имеют очень мало достоинств");
+			qData.setAuthor("А. Линкольн ");
+			qData.setFavourite(false);
+			dao.create(qData);
+			
+			qData.setQuotation("Женщины способны на всё...., мужчины на всё остальное!");
+			qData.setAuthor("Анри Ренье ");
+			qData.setFavourite(false);
+			dao.create(qData);
+			*/
 			//Database test entries
 		} catch (SQLException e) {
 			Log.d(TAG, " Can't create database " + e);																			//For testing purposes
@@ -78,5 +90,4 @@ public class ForismaticDatabaseHelper extends OrmLiteSqliteOpenHelper {
 		super.close();
 		quotationDao = null;
 	}
-
 }

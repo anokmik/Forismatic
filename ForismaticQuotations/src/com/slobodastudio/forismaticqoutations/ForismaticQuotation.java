@@ -18,68 +18,86 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 public class ForismaticQuotation extends Activity {
 	public final static String TAG = ForismaticQuotation.class.getSimpleName();
 	private static TextView quotationText, quotationAuthor;
-	public static ListView allList, favList;
+	private static ListView allList, favList;
 	private static TabHost forismaticTabs;
 	private static Intent service;
+	private SharedPreferences sharedPreferences;
+	private SharedPreferences.Editor sharedPrefEditor;
 	private ForismaticDatabaseHelper forismaticDatabaseHelper = null;
+	private Dao<QuotationData, Integer> forismaticDao;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_forismatic_quotation);
 		initView();
+
+		try {
+			forismaticDao = getHelper().getQuotationDataDao();
+		} catch (SQLException e) {
+			Log.d(TAG, " Database exception " + e);														//For testing purposes
+		}
 		
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		sharedPrefEditor = sharedPreferences.edit();
+		activityIsShown(sharedPrefEditor, true);
+		tabIsShown(sharedPrefEditor, getString(R.string.tab_current));
+		
+		final Messenger messenger = new Messenger(new ServiceHandler(getBaseContext(), forismaticDao, allList, quotationText, quotationAuthor));
+		service = new Intent(this, QuotationDownloadService.class);
+		service.putExtra(getString(R.string.messenger), messenger);
+		startService(service);
+
+		forismaticTabs.setCurrentTabByTag(getString(R.string.tab_current));
 		forismaticTabs.setOnTabChangedListener(new OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
-				Log.d(TAG, " Tab Clicked: " + tabId);														//For testing purposes
+				tabIsShown(sharedPrefEditor, tabId);
 				List<QuotationData> quotationList;
 				try {
-					Dao<QuotationData, Integer> forismaticDao = getHelper().getQuotationDataDao();
 					if (tabId.equals(getString(R.string.tab_all))) {
 						quotationList = forismaticDao.queryForAll();
+						Collections.reverse(quotationList);
 						Log.d(TAG, " Quotation list all size " + quotationList.size());														//For testing purposes
-						allList.setAdapter(new QuotationsAdapter(getApplicationContext(), R.layout.listview_row, quotationList));
+						allList.setAdapter(new QuotationsAdapter(getBaseContext(), R.layout.listview_row, quotationList));
 					} else if(tabId.equals(getString(R.string.tab_favourite))) {
 						quotationList = forismaticDao.queryBuilder().where().eq(QuotationData.FAVOURITE, true).query();
-						Log.d(TAG, " Quotation list fav size " + quotationList.size());	
-						favList.setAdapter(new QuotationsAdapter(getApplicationContext(), R.layout.listview_row_fav, quotationList));
+						Collections.reverse(quotationList);
+						Log.d(TAG, " Quotation list fav size " + quotationList.size());														//For testing purposes
+						favList.setAdapter(new QuotationsAdapter(getBaseContext(), R.layout.listview_row_fav, quotationList));
 					}
 				} catch (SQLException e) {
 					Log.d(TAG, " Database exception " + e);														//For testing purposes
 				}
 			}
 		});
-		
-		final Messenger messenger = new Messenger(new ServiceHandler(quotationText, quotationAuthor));
-		service = new Intent(this, QuotationDownloadService.class);
-		service.putExtra(getString(R.string.messenger), messenger);
-		startService(service);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		activityIsShown(true);
+		activityIsShown(sharedPrefEditor, true);
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
-		activityIsShown(false);
+		activityIsShown(sharedPrefEditor, false);
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		stopService(service);
-		Log.d(TAG, " Service stopped!");																	//For testing purposes
+		Log.d(TAG, " Service " + service + " stopped!");																	//For testing purposes
 		if (forismaticDatabaseHelper != null) {
 			OpenHelperManager.releaseHelper();
 			forismaticDatabaseHelper = null;
@@ -119,11 +137,14 @@ public class ForismaticQuotation extends Activity {
 	}
 	
 	public void favQuotationClick(View v) {
-		Log.d(TAG, " Checkbox click!");																	//For testing purposes
-		if (((CheckBox) v).isChecked()) {
-			//Do something when quotation is checked
-		} else {
-			//Do something when quotation is unchecked
+		Log.d(TAG, " Checkbox " + v.getTag() + " click!");																	//For testing purposes
+		try {
+			UpdateBuilder<QuotationData, Integer> updateBuilder = forismaticDao.updateBuilder();
+			updateBuilder.where().eq("id", v.getTag());
+			updateBuilder.updateColumnValue(QuotationData.FAVOURITE, ((CheckBox) v).isChecked());
+			updateBuilder.update();
+		} catch (SQLException e) {
+			Log.d(TAG, " Database exception " + e);														//For testing purposes
 		}
 	}
 	
@@ -138,7 +159,6 @@ public class ForismaticQuotation extends Activity {
 		addTab(forismaticTabs, getString(R.string.tab_current), R.id.currentQuotation);
 		addTab(forismaticTabs, getString(R.string.tab_all), R.id.allQuotations);
 		addTab(forismaticTabs, getString(R.string.tab_favourite), R.id.favQuotations);
-		forismaticTabs.setCurrentTabByTag(getString(R.string.tab_current));
 	}
 
 	private void addTab(TabHost host, String text, int view) {
@@ -155,12 +175,16 @@ public class ForismaticQuotation extends Activity {
 		return forismaticDatabaseHelper;
 	}
 	
-	private void activityIsShown(boolean state) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor editor = sharedPreferences.edit();
-		editor.putBoolean(getString(R.string.is_shown), state);
-		Log.d(TAG, " Activity state " + state);																//For testing purposes
-		editor.commit();
+	private void activityIsShown(SharedPreferences.Editor activityEditor, boolean state) {
+		activityEditor.putBoolean(getString(R.string.app_is_shown), state);
+		activityEditor.commit();
+		Log.d(TAG, "Application in front " + state);																//For testing purposes
+	}
+
+	private void tabIsShown(SharedPreferences.Editor tabEditor, String string) {
+		tabEditor.putString(getString(R.string.tab_is_shown), string);
+		tabEditor.commit();
+		Log.d(TAG, "Tab is shown " + string);																//For testing purposes
 	}
 	
 	private void checkAndShare(TextView textToCheck, TextView authorToCheck) {
@@ -185,5 +209,4 @@ public class ForismaticQuotation extends Activity {
 	private void openSettings() {
 		startActivity(new Intent(this, ForismaticPreferences.class));
 	}
-
 }

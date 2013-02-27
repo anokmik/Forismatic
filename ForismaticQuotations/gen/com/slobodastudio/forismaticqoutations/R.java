@@ -31,20 +31,21 @@ public final class R {
         public static final int allQuotations=0x7f0a0006;
         public static final int allQuotationsList=0x7f0a0007;
         public static final int currentQuotation=0x7f0a0000;
-        public static final int exit=0x7f0a0011;
+        public static final int exit=0x7f0a0012;
         public static final int favQuotations=0x7f0a0008;
         public static final int favQuotationsList=0x7f0a0009;
         public static final int quotationAuthor=0x7f0a0002;
-        public static final int quotationAuthorAtList=0x7f0a000b;
-        public static final int quotationAuthorAtListFav=0x7f0a000e;
-        public static final int quotationFavouriteAtList=0x7f0a000c;
+        public static final int quotationAuthorAtList=0x7f0a000c;
+        public static final int quotationAuthorAtListFav=0x7f0a000f;
+        public static final int quotationFavouriteAtList=0x7f0a000d;
+        public static final int quotationHolderAtList=0x7f0a000a;
         public static final int quotationText=0x7f0a0001;
-        public static final int quotationTextAtList=0x7f0a000a;
-        public static final int quotationTextAtListFav=0x7f0a000d;
+        public static final int quotationTextAtList=0x7f0a000b;
+        public static final int quotationTextAtListFav=0x7f0a000e;
         public static final int separator=0x7f0a0003;
-        public static final int settings=0x7f0a0010;
+        public static final int settings=0x7f0a0011;
         public static final int settingsBtn=0x7f0a0005;
-        public static final int share=0x7f0a000f;
+        public static final int share=0x7f0a0010;
         public static final int shareBtn=0x7f0a0004;
     }
     public static final class layout {
@@ -56,13 +57,13 @@ public final class R {
         public static final int menu_forismatic_quotation=0x7f090000;
     }
     public static final class string {
+        public static final int app_is_shown=0x7f060013;
         public static final int app_name=0x7f060000;
         public static final int btn_exit=0x7f060008;
         public static final int btn_settings=0x7f060007;
         /**  Button 
          */
         public static final int btn_share=0x7f060006;
-        public static final int is_shown=0x7f060013;
         /**  Service 
          */
         public static final int messenger=0x7f06000b;
@@ -88,6 +89,7 @@ public final class R {
          */
         public static final int tab_current=0x7f060003;
         public static final int tab_favourite=0x7f060005;
+        public static final int tab_is_shown=0x7f060014;
     }
     public static final class style {
         /** 

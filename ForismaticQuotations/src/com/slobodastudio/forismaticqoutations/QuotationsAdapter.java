@@ -49,12 +49,12 @@ public class QuotationsAdapter extends ArrayAdapter<QuotationData> {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		String quotation = (String) getItem(position).getQuotation();
+		String author = (String) getItem(position).getAuthor();
+		Boolean favourite = (Boolean) getItem(position).getFavourite();
+		
 		if (layoutResource == R.layout.listview_row) {
-			ViewHolderAll viewHolder;
-			String quotation = (String) getItem(position).getQuotation();
-			String author = (String) getItem(position).getAuthor();
-			Boolean favourite = (Boolean) getItem(position).getFavourite();
-			
+			ViewHolderAll viewHolder;			
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = inflater.inflate(layoutResource, parent, false);
@@ -65,18 +65,13 @@ public class QuotationsAdapter extends ArrayAdapter<QuotationData> {
 				convertView.setTag(viewHolder);
 			} else {
 				viewHolder = (ViewHolderAll) convertView.getTag();
-			}
+			}			
 			viewHolder.quotationTextViewAll.setText(quotation);
 			viewHolder.authorTextViewAll.setText(author);
 			viewHolder.favouriteCheckBoxAll.setChecked(favourite);
-			//For testing purposes
-			viewHolder.favouriteCheckBoxAll.setTag(position);
-			//For testing purposes
+			viewHolder.favouriteCheckBoxAll.setTag(getCount()-position);
 		} else if (layoutResource == R.layout.listview_row_fav) {
-			ViewHolderFav viewHolder;
-			String quotation = (String) getItem(position).getQuotation();
-			String author = (String) getItem(position).getAuthor();
-			
+			ViewHolderFav viewHolder;			
 			if (convertView == null) {
 				LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = inflater.inflate(layoutResource, parent, false);
@@ -86,11 +81,10 @@ public class QuotationsAdapter extends ArrayAdapter<QuotationData> {
 				convertView.setTag(viewHolder);
 			} else {
 				viewHolder = (ViewHolderFav) convertView.getTag();
-			}
+			}			
 			viewHolder.quotationTextViewFav.setText(quotation);
 			viewHolder.authorTextViewFav.setText(author);
 		}
 		return convertView;
-	}
-	
+	}	
 }

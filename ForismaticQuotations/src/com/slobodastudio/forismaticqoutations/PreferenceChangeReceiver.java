@@ -35,5 +35,4 @@ public class PreferenceChangeReceiver extends BroadcastReceiver {
 			Log.d(TAG, "Quotation download refresh time " + receiverRefreshTime);										//For testing purposes
 		}
 	}
-
 }
